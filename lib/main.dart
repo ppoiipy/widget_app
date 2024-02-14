@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Product layout demo home page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyHomePage(title: 'Home page'),
+        '/emergencyCall': (context) => EmergencyCallPage(
+              dataFromHomePage: '\n191\n1669',
+            ),
+      },
     );
   }
 }
@@ -193,6 +199,7 @@ class MyHomePage extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   print("Emergency Call");
+                  Navigator.pushNamed(context, '/emergencyCall');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -210,6 +217,40 @@ class MyHomePage extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EmergencyCallPage extends StatelessWidget {
+  final String dataFromHomePage;
+
+  EmergencyCallPage({required this.dataFromHomePage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Emergency Call Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+                'Emergency Call Number:$dataFromHomePage',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24.0),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Go Back'),
             ),
           ],
         ),
